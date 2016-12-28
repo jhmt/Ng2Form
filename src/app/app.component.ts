@@ -1,20 +1,18 @@
-// Angular
+// Angular:
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validator } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 // Interfaces:
 import { User } from './user.interface';
 
 @Component({
-  moduleId: module.id,
+  moduleId: 'myApp',
   selector: 'my-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app works!';
-
-  public formGroup: FormGroup;
+  public myForm: FormGroup;
   public submitted: boolean;
   public events: any[] = [];
 
@@ -22,7 +20,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit (): void {
-
+    this.myForm = this._fb.group({
+            name: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
+            address: this._fb.group({
+                street: ['', <any>Validators.required],
+                postcode: ['']
+            })
+        });
   }
 
   saveUser (user: User, isValid: boolean) {
